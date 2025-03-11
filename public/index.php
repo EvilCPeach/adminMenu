@@ -28,10 +28,19 @@
   <title>Document</title>
 </head>
 <body>
+<style>
+    form{
+      width: 250px;
+      height: 200px;
+    }
+    input{
+      margin: 0 0 10px 0;
+    }
+  </style>
   <section class="w-100 vh-100 d-flex justify-content-center align-items-center">
     <form action="" method="POST" class="d-flex flex-column">
-      <input type="text" name="login" placeholder="Введите логин">
-      <input type="password" name="password" placeholder="Введите пароль">
+      <input type="text" name="login" placeholder="Введите логин" class="form-control">
+      <input type="password" name="password" placeholder="Введите пароль" class="form-control">
       <input type="submit" value="Войти">
     </form>
   </section>

@@ -24,6 +24,7 @@
     form{
       width: 250px;
       height: 200px;
+      margin: 0 0 50px 0;
     }
     input{
       margin: 0 0 10px 0;
@@ -41,21 +42,28 @@
           <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="adminPanel.php">Админская панель</a>
+          <a class="nav-link" aria-current="page" href="adminPage.php">Назад</a>
         </li>
           <?php 
             foreach($row as $page){
           ?>
           <li class="nav-item">
-            <a href="<?= $page['link-page'] ?>" class="nav-link"><?= $page['name-page'] ?></a>
+            <a href="<?= $page['link-page']; ?>" class="nav-link"><?= $page['name-page'] ?></a>
           </li>
-          <?php } ?>
+          <?php }; ?>
         </li>
       </ul>
     </div>
   </div>
 </nav>
-<footer class="fixed-bottom py-3 my-4">
+    <section class="buttons vh-100 w-100 d-flex justify-content-center align-items-center">
+        <form action="../functions/createPage.php" method="GET" class="d-flex flex-column">
+          <input type="text" name="namePage" class="form-control" placeholder="Введите название страницы">
+          <input type="text" name="linkPage" class="form-control" placeholder="Введите ссылочное название">
+          <input type="submit" class="btn btn-success" id="createButton" value="Создать страницу">
+        </form>
+    </section>
+    <footer class="fixed-bottom py-3">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
           <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
           <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
@@ -64,7 +72,7 @@
           <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
         </ul>
         <p class="text-center text-body-secondary">© 2024 Company, Inc</p>
-      </footer>
+    </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
