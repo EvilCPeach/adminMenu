@@ -1,15 +1,39 @@
 <?php
-  session_start();
-  require_once '../config/link.php';
-  $getPages = "SELECT * FROM `pages`";
-  $resultPages = $link->query($getPages);
-  $row = $resultPages->fetch_all(MYSQLI_ASSOC);
-  if($_SESSION['role'] != 'admin'){
-    header('location: ../index.php');
-  }
-  else{
-    
-  }
+    require_once '../config/link.php';
+    $id = $_GET['id'];
+    $name = $_GET['name'];
+    $getAllPages = "SELECT * FROM `pages`";
+    $resultAllPages = $link->query($getAllPages);
+    $rowAll = $resultAllPages->fetch_all(MYSQLI_ASSOC);
+    $getPage = " SELECT * FROM `pages` WHERE `id-page` = '$id' ";
+    $resultPage = $link->query($getPage);
+    $row = $resultPage->fetch_all(MYSQLI_ASSOC);
+    if(isset($_GET['newNamePage'],$_GET['newLinkPage']) && !empty($_GET['newNamePage']) && !empty($_GET['newLinkPage'])){
+        $newLinkPage = $_GET['newLinkPage'];
+        $newNamePage = $_GET['newNamePage'];
+        if(str_contains($_GET['newLinkPage'], '.')){
+            $linkWords = trim(preg_replace( '/\s+/' , '' , $_GET['newLinkPage'] ));
+            $linkPageReplace = preg_replace('/\.+/',' ', $_GET['newLinkPage']);
+            $linkPageExplode = explode(' ', $linkPageReplace);
+            $linkPage = array_slice($linkPageExplode, array_search(' ', $linkPageExplode), -1);
+            $result = strtolower(implode('_',$linkPage));
+            $linkPage = $result . '.php';
+            rename('../pages/' . $name, '../pages/' . $linkPage);
+            $changeQuery = " UPDATE `pages` SET `name-page`='$newNamePage',`link-page`='$linkPage' WHERE `id-page` = '$id' ";
+            $resultChange = $link->query($changeQuery);
+            // header('location: ../pages/adminPanel.php');
+        }
+        else{
+            $linkPage = str_replace(' ', '_', trim(strtolower($_GET['newLinkPage'] . '.php')));
+            $changeQuery = " UPDATE `pages` SET `name-page`='$newNamePage',`link-page`='$linkPage' WHERE `id-page` = '$id' ";
+            $resultChange = $link->query($changeQuery);
+            rename("../pages/$name", "../pages/$linkPage");
+            // header('location: ../pages/adminPanel.php');
+        }
+    }
+    else{
+
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +46,7 @@
 <body>
   <style>
     form{
-      width: 250px;
+      width: 300px;
       height: 200px;
     }
     input{
@@ -55,10 +79,10 @@
           <a class="nav-link" aria-current="page" href="adminPage.php">Назад</a>
         </li>
           <?php 
-            foreach($row as $page){
+            foreach($rowAll as $pages){
           ?>
           <li class="nav-item">
-            <a href="<?= $page['link-page']; ?>" class="nav-link"><?= $page['name-page'] ?></a>
+            <a href="<?= $pages['link-page'] ?>" class="nav-link"><?= $pages['name-page'] ?></a>
           </li>
           <?php }; ?>
         </li>
@@ -67,10 +91,12 @@
   </div>
 </nav>
     <section class="buttons d-flex justify-content-around align-items-center">
-        <form action="../functions/createPage.php" method="GET" class="d-flex flex-column">
-          <input type="text" name="namePage" class="form-control" placeholder="Введите название страницы">
-          <input type="text" name="linkPage" class="form-control" placeholder="Введите ссылочное название">
-          <input type="submit" class="btn btn-success" id="createButton" value="Создать страницу">
+        <form action="" method="GET" class="d-flex flex-column">
+          <input type="text" name="id" class="form-control" value="<?= $_GET['id'] ?>" hidden>
+            <input type="text" name="name" class="form-control" value="<?= $_GET['name'] ?>" hidden>
+          <input type="text" name="newNamePage" class="form-control" placeholder="Введите новое название страницы">
+          <input type="text" name="newLinkPage" class="form-control" placeholder="Введите новое ссылочное название">
+          <input type="submit" class="btn btn-success" id="changeButton" value="Изменить страницу">
         </form>
         <article class="d-flex justify-content-center">
           <table>
@@ -82,12 +108,6 @@
                 <tr>
                   <td><?= $page['name-page'] ?></td>
                   <td><?= $page['link-page'] ?></td>
-                  <td>
-                    <a href="../functions/deletePage.php?id=<?= $page['id-page'] ?>&name=<?= $page['link-page'] ?>">Удалить</a>
-                  </td>
-                  <td>
-                    <a href="../functions/changePage.php?id=<?= $page['id-page'] ?>&name=<?= $page['link-page'] ?>">Изменить</a>
-                  </td>
                 </tr>
               <?php } ?>
             </table>
