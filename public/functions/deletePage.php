@@ -4,6 +4,6 @@
     $name = $_GET['name'];
     $deleteQuery = " DELETE FROM `pages` WHERE `id-page` = '$id' ";
     $resultDelete = $link->query($deleteQuery);
-    unlink('../pages' . $name . '.php');
+    unlink('../pages/' . $name);
     header('location: ../pages/adminPanel.php');
 ?>

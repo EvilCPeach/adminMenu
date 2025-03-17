@@ -1,9 +1,6 @@
 <?php
   session_start();
   require_once 'config/link.php';
-  $getUsers = "SELECT * FROM `users`";
-  $resultUsers = $link->query($getUsers);
-  $row = $resultUsers->fetch_all(MYSQLI_ASSOC);
   if(isset($_POST) && !empty($_POST)){
     if($_POST['password'] == 'admin'){
       $_SESSION['role'] = 'admin';
