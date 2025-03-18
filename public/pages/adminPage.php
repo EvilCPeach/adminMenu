@@ -6,6 +6,7 @@
   $row = $resultPages->fetch_all(MYSQLI_ASSOC);
   if($_SESSION['role'] != 'admin'){
     header('location: ../index.php');
+    session_destroy();
   }
   else{
     

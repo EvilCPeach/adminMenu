@@ -1,0 +1,11 @@
+form{
+    width: 260px;
+    height: 130px;
+}
+input{
+    margin: 0 0 10px 0;
+}
+.modal {
+    --bs-modal-zindex: 1055;
+    --bs-modal-width: 385px;
+}

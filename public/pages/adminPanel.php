@@ -1,4 +1,5 @@
 <?php
+  error_reporting(E_ALL);
   session_start();
   require_once '../config/link.php';
   $getPages = "SELECT * FROM `pages`";
@@ -6,6 +7,7 @@
   $row = $resultPages->fetch_all(MYSQLI_ASSOC);
   if($_SESSION['role'] != 'admin'){
     header('location: ../index.php');
+    session_destroy();  
   }
   else{
     
@@ -28,20 +30,12 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav" id="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" href="#">Главная</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="adminPage.php">Назад</a>
-        </li>
-          <?php 
-            foreach($row as $page){
-          ?>
-          <li class="nav-item">
-            <a href="<?= $page['link-page']; ?>" class="nav-link"><?= $page['name-page'] ?></a>
-          </li>
-          <?php }; ?>
+          <a class="nav-link" aria-current="page" href="adminPage.php">Выход</a>
         </li>
       </ul>
     </div>
@@ -54,13 +48,13 @@
           <input type="submit" class="btn btn-success" id="createButton" value="Создать страницу">
         </form>
         <article class="d-flex justify-content-center">
-          <table>
-            <thead>
+          <table id="table">
+            <thead draggable="false">
               <th>Название</th>
               <th>Корневое название</th>
             </thead>
               <?php foreach($row as $page){ ?>
-                <tr id="target" draggable="true">
+                <tr id="target" draggable="true" data-id="<?= $page['id-page'] ?>">
                   <td><?= $page['name-page'] ?></td>
                   <td><?= $page['link-page'] ?></td>
                   <td>
@@ -68,6 +62,9 @@
                   </td>
                   <td>
                     <a href="../functions/changePage.php?id=<?= $page['id-page'] ?>&name=<?= $page['link-page'] ?>">Изменить</a>
+                  </td>
+                  <td>
+                    <a href="../functions/updatePage.php?id=<?= $page['id-page'] ?>">Обновить</a>
                   </td>
                 </tr>
               <?php } ?>

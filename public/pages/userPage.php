@@ -2,6 +2,7 @@
     session_start();
     if($_SESSION['role'] != 'user'){
         header('location: ../index.php');
+        session_destroy();
     }
     else{
         
