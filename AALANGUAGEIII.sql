@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: MySQL-8.2
--- Время создания: Мар 10 2025 г., 19:50
+-- Время создания: Мар 26 2025 г., 13:21
 -- Версия сервера: 8.2.0
 -- Версия PHP: 8.2.18
 
@@ -30,17 +30,39 @@ SET time_zone = "+00:00";
 CREATE TABLE `pages` (
   `id-page` int NOT NULL,
   `name-page` varchar(20) NOT NULL,
-  `link-page` varchar(30) NOT NULL
+  `link-page` varchar(30) NOT NULL,
+  `position-page` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Дамп данных таблицы `pages`
 --
 
-INSERT INTO `pages` (`id-page`, `name-page`, `link-page`) VALUES
-(1, 'page1', 'page1.php'),
-(27, 'О нас', 'about.php'),
-(28, 'Комментарии', 'comments.php');
+INSERT INTO `pages` (`id-page`, `name-page`, `link-page`, `position-page`) VALUES
+(47, 'Отзывы', 'reviewes.php', 1),
+(48, 'Контакты', 'contacts.php', 3),
+(65, 'О нас', 'about.php', 2),
+(68, 'Чат', 'chat.php', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `parts`
+--
+
+CREATE TABLE `parts` (
+  `id-part` int NOT NULL,
+  `name-part` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+--
+-- Дамп данных таблицы `parts`
+--
+
+INSERT INTO `parts` (`id-part`, `name-part`) VALUES
+(1, 'header'),
+(2, 'footer'),
+(3, 'block');
 
 -- --------------------------------------------------------
 
@@ -74,6 +96,12 @@ ALTER TABLE `pages`
   ADD PRIMARY KEY (`id-page`);
 
 --
+-- Индексы таблицы `parts`
+--
+ALTER TABLE `parts`
+  ADD PRIMARY KEY (`id-part`);
+
+--
 -- Индексы таблицы `users`
 --
 ALTER TABLE `users`
@@ -87,7 +115,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `pages`
 --
 ALTER TABLE `pages`
-  MODIFY `id-page` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id-page` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+
+--
+-- AUTO_INCREMENT для таблицы `parts`
+--
+ALTER TABLE `parts`
+  MODIFY `id-part` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
